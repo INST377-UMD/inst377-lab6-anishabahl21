@@ -18,20 +18,14 @@ const coordinates = []
  }
 
 async function getMarker(){
-    for(let i = 0; i < coordinates.length; i++) {
-        const {lat: latitude, lon: longitude} = coordinates[i];
-
+    for(let x = 0; x < coordinates.length; x++) {
+        const {lat: latitude, lon: longitude} = coordinates[x];
         await fetch('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en')
             .then(response => response.json())
             .then(data => {
                 const marker = L.marker([latitude, longitude]).addTo(map);
-                document.getElementById("marker1").innerHTML += ` Latitude: ${latitude}, Longtitude: ${longitude}
+                document.getElementById(`marker${x + 1}`).innerHTML += ` Latitude: ${latitude}, Longtitude: ${longitude}
                 <br> Locality: ${data.locality}<br>`
-                document.getElementById("marker2").innerHTML += ` Latitude: ${latitude}, Longtitude: ${longitude}
-                <br> Locality: ${data.locality}<br>`
-                document.getElementById("marker3").innerHTML += ` Latitude: ${latitude}, Longtitude: ${longitude}
-                <br> Locality: ${data.locality}<br>`
-
             });
     }
     map.fitBounds(coordinates.map(coord => [coord.lat, coord.lon]));
